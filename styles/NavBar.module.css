@@ -1,0 +1,82 @@
+.navbar {
+  --bgColour: rgb(60, 52, 52);
+  background-color: var(--bgColour);
+  color: whitesmoke;
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid black;
+}
+
+.navbarItems {
+  display: flex;
+  margin: 0 1em 0 1em;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbarItems > ul {
+  display: flex;
+  align-items: center;
+  gap: 1.6vw;
+}
+
+.navbarItems li {
+  list-style: none;
+  display: inline;
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.navbar a {
+  color: white;
+}
+
+.navbar img {
+  cursor: pointer;
+}
+
+.search svg {
+  cursor: pointer;
+}
+.navbar svg path {
+  transition: fill ease-in 0.1s;
+}
+
+.navbar svg:hover path {
+  transition: fill ease-in 0.1s;
+  fill: rgb(137, 132, 132);
+}
+
+.mediaReactIcon svg path {
+  transition: stroke ease-in 0.1s;
+  fill: var(--bgColour);
+  stroke: white;
+}
+
+.mediaReactIcon svg:hover path {
+  transition: stroke ease-in 0.1s;
+  stroke: rgb(137, 132, 132);
+  fill: var(--bgColour);
+}
+
+.settingsReactIconsvg svg path {
+  transition: stroke ease-in 0.1s;
+  fill: var(--bgColour);
+  stroke: white;
+}
+
+.settingsReactIcon svg:hover path {
+  transition: stroke ease-in 0.1s;
+  stroke: rgb(137, 132, 132);
+  fill: var(--bgColour);
+}
+
+.search input {
+  width: 17vw;
+  outline: none;
+}
+
+.userAvatar img {
+  border-radius: 50%;
+}
