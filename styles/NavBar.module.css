@@ -1,7 +1,9 @@
 .navbar {
   --bgColour: rgb(60, 52, 52);
+  --hoverColour: rgb(206, 183, 183);
   background-color: var(--bgColour);
   color: whitesmoke;
+  text-align: center;
   position: sticky;
   top: 0;
   border-bottom: 1px solid black;
@@ -15,6 +17,7 @@
 }
 
 .navbarItems > ul {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 1.6vw;
@@ -22,14 +25,20 @@
 
 .navbarItems li {
   list-style: none;
+  height: 40px;
+  cursor: pointer;
+}
+
+.navbarItems * {
   display: inline;
   display: flex;
   align-items: center;
-  height: 40px;
 }
 
 .navbar a {
+  transition: color ease-in 0.1s;
   color: white;
+  text-decoration: none;
 }
 
 .navbar img {
@@ -43,9 +52,13 @@
   transition: fill ease-in 0.1s;
 }
 
-.navbar svg:hover path {
+.navbar li:hover:not(.mediaReactIcon, .settingsReactIcon, .search) svg path {
   transition: fill ease-in 0.1s;
-  fill: rgb(137, 132, 132);
+  fill: var(--hoverColour);
+}
+.navbar li:hover a {
+  transition: color ease-in 0.1s;
+  color: var(--hoverColour);
 }
 
 .mediaReactIcon svg path {
@@ -54,29 +67,60 @@
   stroke: white;
 }
 
-.mediaReactIcon svg:hover path {
+.mediaReactIcon:hover svg path {
   transition: stroke ease-in 0.1s;
-  stroke: rgb(137, 132, 132);
+  stroke: var(--hoverColour);
   fill: var(--bgColour);
 }
 
-.settingsReactIconsvg svg path {
+.settingsReactIcon svg path {
   transition: stroke ease-in 0.1s;
   fill: var(--bgColour);
   stroke: white;
 }
 
-.settingsReactIcon svg:hover path {
+.settingsReactIcon:hover svg path {
   transition: stroke ease-in 0.1s;
-  stroke: rgb(137, 132, 132);
+  stroke: var(--hoverColour);
   fill: var(--bgColour);
+}
+
+.search button {
+  height: 23px;
+  outline: none;
 }
 
 .search input {
   width: 17vw;
+  height: 23px;
   outline: none;
 }
 
 .userAvatar img {
   border-radius: 50%;
+}
+
+@media (min-width: 740px) {
+  .search {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (max-width: 740px) {
+  .navbarItems > ul {
+    gap: 3vw;
+  }
+}
+@media (max-width: 340px) {
+  .search {
+    display: none;
+  }
+}
+
+@media (max-width: 340px) {
+  .navbarItems > ul {
+    gap: 5vw;
+  }
 }
