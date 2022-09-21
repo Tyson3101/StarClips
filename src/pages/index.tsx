@@ -1,9 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import dynamicImport from "../util/dynamicImport";
-
-const NavBar = dynamicImport("components/NavBar.tsx");
-
+import NavBar from "../components/NavBar";
 const Home: NextPage = () => {
   return (
     <>

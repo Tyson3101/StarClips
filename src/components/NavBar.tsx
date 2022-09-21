@@ -8,7 +8,6 @@ import { AiOutlineCloudUpload, AiOutlineHome } from "react-icons/ai";
 import { GrMultimedia } from "react-icons/gr";
 import { BsPeople } from "react-icons/bs";
 import { useRouter } from "next/router";
-import { useMediaQuery } from "react-responsive";
 
 const user = {
   email: "test@email.com",
@@ -17,9 +16,7 @@ const user = {
 
 function NavBar() {
   const router = useRouter();
-  const showItemTitles = useMediaQuery({
-    query: "(min-width: 580px)",
-  });
+
   return (
     <div className={styles.navbar}>
       <ul className={styles.navbarItems}>
@@ -41,7 +38,8 @@ function NavBar() {
             <Link href="#">
               <a>
                 <AiOutlineHome size={20} />
-                {showItemTitles ? <>&nbsp;Home</> : null}
+
+                <span className={styles.itemTitle}>&nbsp;Home</span>
               </a>
             </Link>
           </li>
@@ -54,7 +52,7 @@ function NavBar() {
             <Link href="#">
               <a>
                 <GrMultimedia size={20} />
-                {showItemTitles ? <>&nbsp;Clips</> : null}
+                <span className={styles.itemTitle}>&nbsp;Clips</span>
               </a>
             </Link>
           </li>
@@ -66,7 +64,7 @@ function NavBar() {
             <Link href="#">
               <a>
                 <BsPeople size={20} />
-                {showItemTitles ? <>&nbsp;Following</> : null}
+                <span className={styles.itemTitle}>&nbsp;Following</span>
               </a>
             </Link>
           </li>
