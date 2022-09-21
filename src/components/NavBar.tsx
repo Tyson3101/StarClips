@@ -1,14 +1,14 @@
+import styles from "../../styles/NavBar.module.css";
 import Image from "next/image";
+import Link from "next/link";
+import SearchBar from "./SearchBar";
+import setClassNames from "../util/setClassNames";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineCloudUpload, AiOutlineHome } from "react-icons/ai";
 import { GrMultimedia } from "react-icons/gr";
 import { BsPeople } from "react-icons/bs";
-import styles from "../../styles/NavBar.module.css";
-import Link from "next/link";
-import useClientMediaQuery from "../hooks/useClientMediaQuery";
-import SearchBar from "./SearchBar";
 import { useRouter } from "next/router";
-import setClassNames from "../util/setClassNames";
+import { useMediaQuery } from "react-responsive";
 
 const user = {
   email: "test@email.com",
@@ -17,8 +17,7 @@ const user = {
 
 function NavBar() {
   const router = useRouter();
-  console.log(router.pathname);
-  const showItemTitles = useClientMediaQuery({
+  const showItemTitles = useMediaQuery({
     query: "(min-width: 580px)",
   });
   return (
