@@ -7,7 +7,7 @@
   position: sticky;
   top: 0;
   border-bottom: 1px solid black;
-  height: 9vh;
+  height: 2.7rem;
 }
 
 .navbarItems {
@@ -88,14 +88,14 @@
 }
 
 .search input {
-  width: 17vw;
+  width: max(18vw, 5.5rem);
 }
 
 .userAvatar img {
   border-radius: 50%;
 }
 
-@media (min-width: 780px) {
+@media (min-width: 790px) {
   .search {
     position: absolute;
     left: 50%;
@@ -103,18 +103,25 @@
   }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 790px) {
   .navbarItems > ul {
     gap: 3vw;
   }
 }
-@media (max-width: 340px) {
+
+@media (max-width: 579px) {
+  .search input {
+    width: 7rem;
+  }
+}
+
+@media (max-width: 400px) {
   .search {
     display: none;
   }
 }
 
-@media (max-width: 340px) {
+@media (max-width: 400px) {
   .navbarItems > ul {
     gap: 5vw;
   }

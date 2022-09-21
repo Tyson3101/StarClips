@@ -18,8 +18,10 @@ function SearchBar({ size: { height, svg: svgSize } }: SearchBarProps) {
           backgroundColor: "whitesmoke",
           border: "none",
           borderRadius: "4%",
+          textIndent: "5px",
         }}
         type={"text"}
+        placeholder={"Fortnite"}
       />{" "}
       <button style={{ height, outline: "none" }} name="Search Button">
         <BiSearchAlt2 size={svgSize} />

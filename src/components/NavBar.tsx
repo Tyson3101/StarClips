@@ -19,7 +19,7 @@ function NavBar() {
   const router = useRouter();
   console.log(router.pathname);
   const showItemTitles = useClientMediaQuery({
-    query: "(min-width: 570px)",
+    query: "(min-width: 580px)",
   });
   return (
     <div className={styles.navbar}>
@@ -73,7 +73,7 @@ function NavBar() {
           </li>
         </ul>{" "}
         <li className={styles.search}>
-          <SearchBar size={{ height: "65%", svg: 20 }} />
+          <SearchBar size={{ height: "55%", svg: 20 }} />
         </li>
         <ul>
           <li
