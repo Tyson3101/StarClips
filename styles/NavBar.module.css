@@ -1,13 +1,14 @@
 .navbar {
-  --bgColour: rgb(60, 52, 52);
+  --bgColour: rgba(29, 4, 24, 0.96);
   --hoverColour: rgb(206, 183, 183);
   background-color: var(--bgColour);
   color: whitesmoke;
   text-align: center;
   position: sticky;
   top: 0;
-  border-bottom: 1px solid black;
+  box-shadow: 0.1px 0.1px 30px 1.3px rgb(0, 0, 0);
   height: 2.7rem;
+  z-index: 100;
 }
 
 .navbarItems {
@@ -38,7 +39,7 @@
 }
 
 .navbar a {
-  transition: color ease-in 0.1s;
+  transition: color 0.1s;
   color: white;
   text-decoration: none;
 }
@@ -51,38 +52,38 @@
   cursor: pointer;
 }
 .navbar svg path {
-  transition: fill ease-in 0.1s;
+  transition: fill 0.1s;
 }
 
 .navbar li:hover:not(.mediaReactIcon, .settingsReactIcon, .search) svg path {
-  transition: fill ease-in 0.1s;
+  transition: fill 0.1s;
   fill: var(--hoverColour);
 }
-.navbar li:hover a {
-  transition: color ease-in 0.1s;
+.navbar li:hover a:not(.authText a) {
+  transition: color 0.1s;
   color: var(--hoverColour);
 }
 
 .mediaReactIcon svg path {
-  transition: stroke ease-in 0.1s;
+  transition: stroke 0.1s;
   fill: var(--bgColour);
   stroke: white;
 }
 
 .mediaReactIcon:hover svg path {
-  transition: stroke ease-in 0.1s;
+  transition: stroke 0.1s;
   stroke: var(--hoverColour);
   fill: var(--bgColour);
 }
 
 .settingsReactIcon svg path {
-  transition: stroke ease-in 0.1s;
+  transition: stroke 0.1s;
   fill: var(--bgColour);
   stroke: white;
 }
 
 .settingsReactIcon:hover svg path {
-  transition: stroke ease-in 0.1s;
+  transition: stroke 0.1s;
   stroke: var(--hoverColour);
   fill: var(--bgColour);
 }
@@ -134,7 +135,7 @@
   color: var(--hoverColour);
 }
 
-.active:not(.mediaReactIcon, .settingsReactIcon, .search) svg path {
+.active:not(.mediaReactIcon, .settingsReactIcon, .search, .authText) svg path {
   fill: var(--hoverColour);
 }
 
@@ -146,4 +147,15 @@
 .settingsReactIcon.active svg {
   stroke: var(--hoverColour);
   fill: var(--bgColour);
+}
+
+.authText {
+  font-size: smaller;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+.authText a:hover {
+  transition: color 0.1s;
+  color: var(--hoverColour);
 }

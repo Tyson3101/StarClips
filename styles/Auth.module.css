@@ -1,0 +1,101 @@
+.authPage {
+  color: whitesmoke;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(63, 30, 101, 0.93);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 1px 1px 10px 1px black;
+  padding: 4rem 0;
+}
+
+.authPage h2 {
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.authPage form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  margin-bottom: 1rem;
+}
+.authPage form > *:not(.submitBtn) {
+  align-self: stretch;
+}
+
+.authPage label {
+  position: relative;
+  left: -30px;
+}
+
+.authPage input {
+  color: aliceblue;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 2px black solid;
+  border-radius: 20% 10%;
+  height: 2rem;
+  font-size: 0.8rem;
+}
+
+.submitBtn {
+  transition: background-color 0.2s;
+  background-color: rgba(255, 255, 255, 0.755);
+  margin-top: 1.3rem;
+  padding: 0.3rem;
+  width: 70%;
+  cursor: pointer;
+}
+
+.authPage form button:hover {
+  transition: background-color 0.2s;
+  background-color: rgba(207, 190, 190, 0.755);
+}
+
+.authProviders {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.authProviders button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 5px;
+  text-align: center;
+  padding-right: 4px;
+}
+
+.authProviderLogo {
+  position: relative;
+  top: 2px;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+
+@media (max-height: 670px) {
+  .authPage {
+    top: 55%;
+    height: 34.1rem;
+  }
+}
+@media (max-height: 450px) {
+  .authPage {
+    top: 60%;
+  }
+}

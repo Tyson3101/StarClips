@@ -1,7 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap");
 body {
-  background-color: rgb(78, 72, 72);
   font-family: "Libre Franklin";
+  height: 100vh;
+  width: 100vw;
+  background: url("https://i.pinimg.com/originals/33/33/93/33339395a505771fb1a78bd0525a801c.jpg")
+    no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  /* background-color: rgb(57, 137, 235); */
 }
 
 *,
