@@ -7,9 +7,11 @@
   position: sticky;
   top: 0;
   border-bottom: 1px solid black;
+  height: 9vh;
 }
 
 .navbarItems {
+  height: 100%;
   display: flex;
   margin: 0 1em 0 1em;
   justify-content: space-between;
@@ -85,22 +87,15 @@
   fill: var(--bgColour);
 }
 
-.search button {
-  height: 23px;
-  outline: none;
-}
-
 .search input {
   width: 17vw;
-  height: 23px;
-  outline: none;
 }
 
 .userAvatar img {
   border-radius: 50%;
 }
 
-@media (min-width: 740px) {
+@media (min-width: 780px) {
   .search {
     position: absolute;
     left: 50%;
@@ -108,7 +103,7 @@
   }
 }
 
-@media (max-width: 740px) {
+@media (max-width: 780px) {
   .navbarItems > ul {
     gap: 3vw;
   }
@@ -123,4 +118,22 @@
   .navbarItems > ul {
     gap: 5vw;
   }
+}
+
+.active a {
+  color: var(--hoverColour);
+}
+
+.active:not(.mediaReactIcon, .settingsReactIcon, .search) svg path {
+  fill: var(--hoverColour);
+}
+
+.mediaReactIcon.active svg path {
+  stroke: var(--hoverColour);
+  fill: var(--bgColour);
+}
+
+.settingsReactIcon.active svg {
+  stroke: var(--hoverColour);
+  fill: var(--bgColour);
 }
