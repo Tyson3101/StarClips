@@ -14,7 +14,7 @@ function SignUp() {
   }
   return (
     <>
-      <div className={styles.authPage} style={{ width: " min(32rem, 92%)" }}>
+      <div className={styles.authPage} style={{ width: " min(32rem, 95%)" }}>
         <h2>Sign Up</h2>
         <h3 className={styles[message.error ? "error" : "success"]}>
           {message.value}
@@ -46,7 +46,11 @@ function SignUp() {
             Sign Up!
           </button>
         </form>
-        <h3>OR</h3>
+        <h3 className={styles.OrText}>
+          <hr />
+          <span>OR</span>
+          <hr />
+        </h3>
         <div className={styles.authProviders}>
           <button>
             <span className={styles.authProviderLogo}>

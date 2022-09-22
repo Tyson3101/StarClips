@@ -9,7 +9,7 @@
   flex-direction: column;
   align-items: center;
   box-shadow: 1px 1px 10px 1px black;
-  padding: 4rem 0;
+  padding: 3vh 0;
 }
 
 .authPage h2 {
@@ -88,10 +88,24 @@
   color: green;
 }
 
+.OrText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.OrText span {
+  display: block;
+  border: 3px soild black;
+}
+.OrText hr {
+  min-width: min(500%, 40vw);
+}
+
 @media (max-height: 670px) {
   .authPage {
     top: 55%;
-    height: 34.1rem;
   }
 }
 @media (max-height: 450px) {

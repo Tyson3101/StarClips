@@ -40,7 +40,11 @@ function SignIn() {
             Sign In
           </button>
         </form>
-        <h3>OR</h3>
+        <h3 className={styles.OrText}>
+          <hr />
+          <span>OR</span>
+          <hr />
+        </h3>
         <div className={styles.authProviders}>
           <button>
             <span className={styles.authProviderLogo}>
