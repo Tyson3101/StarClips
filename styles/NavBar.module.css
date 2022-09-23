@@ -4,10 +4,11 @@
   background-color: var(--bgColour);
   color: whitesmoke;
   text-align: center;
-  position: sticky;
+  position: fixed;
+  width: 100%;
   top: 0;
   box-shadow: 0.1px 0.1px 30px 1.3px rgb(0, 0, 0);
-  height: 2.7rem;
+  height: 2.9rem;
   z-index: 100;
 }
 
@@ -19,7 +20,7 @@
   align-items: center;
 }
 
-.navbarItems > ul {
+.navbarItems .parentLi {
   position: relative;
   display: flex;
   align-items: center;
@@ -55,11 +56,16 @@
   transition: fill 0.1s;
 }
 
-.navbar li:hover:not(.mediaReactIcon, .settingsReactIcon, .search) svg path {
+.navbar
+  li
+  ul
+  li:hover:not(.mediaReactIcon, .settingsReactIcon, .search)
+  svg
+  path {
   transition: fill 0.1s;
   fill: var(--hoverColour);
 }
-.navbar li:hover a:not(.authText a) {
+.navbar li ul li:hover a:not(.authText a) {
   transition: color 0.1s;
   color: var(--hoverColour);
 }
@@ -155,6 +161,7 @@
   justify-content: center;
   gap: 3px;
 }
+
 .authText a:hover {
   transition: color 0.1s;
   color: var(--hoverColour);

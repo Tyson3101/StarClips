@@ -15,10 +15,13 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": "./",
+    "noUnusedLocals": true,
     "paths": {
       "@components/*": ["src/components/*"],
       "@util/*": ["src/util/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@lib/*": ["src/lib/*"],
+      "@hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

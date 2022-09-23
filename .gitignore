@@ -30,6 +30,10 @@ yarn-error.log*
 .env.local
 .env*
 
+# DB
+migrations
+*.db
+
 # vercel
 .vercel
 

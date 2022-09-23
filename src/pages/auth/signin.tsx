@@ -1,42 +1,72 @@
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import styles from "@styles/Auth.module.css";
 import { FcGoogle } from "react-icons/fc";
 import { FaDiscord, FaGithub } from "react-icons/fa";
+import { signIn, useSession } from "next-auth/react";
+import Title from "@components/static/Title";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import setClassNames from "@util/setClassNames";
+import ReactToastContainer from "@components/static/ReactToastContainer";
 
 function SignIn() {
+  const router = useRouter();
+  const { status } = useSession();
   const [message, setMessage] = useState({ error: false, value: "" });
-  const [showRecaptcha, setShowRecaptcha] = useState(false);
-  const [verifiedCaptcha, setVerifiedCaptcha] = useState(false);
-  const captcha = useRef() as any;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  function signUpForm(e: FormEvent<HTMLFormElement>) {
+  async function signInForm(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!verifiedCaptcha) setShowRecaptcha(true);
+    if (!email || !password)
+      return setMessage({
+        error: true,
+        value: "Please fill in all the fields!",
+      });
+    const { error } = (await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    })) as { error: string };
+    if (error) {
+      return setMessage({ error: true, value: "Email or Password is wrong." });
+    }
+    router.push("/auth");
   }
   return (
     <>
-      <div className={styles.authPage} style={{ width: " min(30rem, 92%)" }}>
+      <Title page="Signin" desc="Sign In Page" />
+      <ReactToastContainer />
+      <div
+        className={setClassNames(styles.authPage, styles.scaleHigher)}
+        style={{ width: " min(30rem, 92%)" }}
+      >
         <h2>Sign In</h2>
         <h3 className={styles[message.error ? "error" : "success"]}>
           {message.value}
         </h3>
-        <form onSubmit={signUpForm} autoComplete="off" spellCheck={false}>
+        <form onSubmit={signInForm} autoComplete="off" spellCheck={false}>
           <label htmlFor="email">Email:</label>
           <input
+            disabled={status !== "unauthenticated"}
             type="email"
             name="email"
-            //required
+            required
             onChange={(e) => setEmail(e.target.value)}
           />
           <label htmlFor="password">Password:</label>
           <input
             type="password"
             name="password"
-            // required
+            required
+            disabled={status !== "unauthenticated"}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" className={styles.submitBtn}>
+          <button
+            type="submit"
+            className={styles.submitBtn}
+            aria-label="Sign In"
+            disabled={status !== "unauthenticated"}
+          >
             Sign In
           </button>
         </form>
@@ -46,25 +76,40 @@ function SignIn() {
           <hr />
         </h3>
         <div className={styles.authProviders}>
-          <button>
+          <button
+            aria-label="Google Sign In"
+            disabled={status !== "unauthenticated"}
+          >
             <span className={styles.authProviderLogo}>
               <FcGoogle size={30} />
             </span>
             <span>Sign in with Google</span>
           </button>
-          <button>
+          <button
+            aria-label="Github Sign In"
+            disabled={status !== "unauthenticated"}
+          >
             <span className={styles.authProviderLogo}>
               <FaGithub size={30} fill={"#333"} />
             </span>
             <span>Sign in with Github</span>
           </button>
-          <button>
+          <button
+            onClick={() =>
+              signIn("discord", { callbackUrl: "/auth?loggedIn=true" })
+            }
+            aria-label="Discord Sign In"
+            disabled={status !== "unauthenticated"}
+          >
             <span className={styles.authProviderLogo}>
               <FaDiscord size={30} fill={"#5765F2"} />
             </span>
             <span>Sign in with Discord</span>
           </button>
         </div>
+        <Link href={"/auth/signup"}>
+          <a className={styles.redirectAuth}>Don&apos;t have an account?</a>
+        </Link>
       </div>
     </>
   );

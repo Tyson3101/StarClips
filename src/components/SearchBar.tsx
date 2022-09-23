@@ -23,7 +23,7 @@ function SearchBar({ size: { height, svg: svgSize } }: SearchBarProps) {
         type={"text"}
         placeholder={"Fortnite"}
       />{" "}
-      <button style={{ height, outline: "none" }} name="Search Button">
+      <button style={{ height, outline: "none" }} aria-label="Search Button">
         <BiSearchAlt2 size={svgSize} />
       </button>
     </>

@@ -3,19 +3,27 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1.1);
   background-color: rgba(63, 30, 101, 0.93);
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 1px 1px 10px 1px black;
-  padding: 3vh 0;
+  padding: 4vh 0;
+}
+
+.scaleHigher {
+  transform: translate(-50%, -50%) scale(1.1);
 }
 
 .authPage h2 {
   text-align: center;
   margin-top: 0.5rem;
   margin-bottom: 0.3rem;
+}
+
+.authPage h2.authOptionsHeader {
+  margin-bottom: 1.3rem;
 }
 
 .authPage form {
@@ -39,7 +47,7 @@
   background-color: rgba(255, 255, 255, 0.3);
   border: 2px black solid;
   border-radius: 20% 10%;
-  height: 2rem;
+  height: 2.2rem;
   font-size: 0.8rem;
 }
 
@@ -55,6 +63,31 @@
 .authPage form button:hover {
   transition: background-color 0.2s;
   background-color: rgba(207, 190, 190, 0.755);
+}
+
+.authOptions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.authOptions button {
+  width: max(16vw, 8rem);
+  height: 6vh;
+  cursor: pointer;
+  background-color: rgba(223, 222, 222, 0.755);
+  border: 2px solid black;
+}
+
+.authOptions button:hover {
+  width: max(16vw, 8rem);
+  height: 6vh;
+  cursor: pointer;
+  transition: background-color 0.1s;
+  background-color: rgba(255, 255, 255, 0.755);
 }
 
 .authProviders {
@@ -82,10 +115,12 @@
 
 .error {
   color: red;
+  text-align: center;
 }
 
 .success {
   color: green;
+  text-align: center;
 }
 
 .OrText {
@@ -100,16 +135,55 @@
   border: 3px soild black;
 }
 .OrText hr {
-  min-width: min(500%, 40vw);
+  min-width: min(500%, 37vw);
 }
 
-@media (max-height: 670px) {
-  .authPage {
-    top: 55%;
-  }
+.emailVerification {
+  margin-bottom: 1rem;
 }
-@media (max-height: 450px) {
+
+.emailVerification h2 {
+  cursor: pointer;
+  text-decoration: underline;
+  color: rgb(255, 47, 47);
+}
+
+.redirectAuth {
+  color: aliceblue;
+  margin-top: 5px;
+  text-align: center;
+  font-size: 13px;
+  padding: 4px 4rem 0 4rem;
+}
+
+.emailCode {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1em;
+}
+
+.emailCode label {
+  left: 0;
+}
+
+.emailCode input {
+  height: 1.9rem;
+  width: 80%;
+}
+
+.emailCode span {
+  cursor: pointer;
+  color: white;
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+@media (max-width: 770px) {
   .authPage {
-    top: 60%;
+    transform: translate(-50%, -50%) scale(1);
+    padding: 1rem 0 3rem 0;
+    top: calc(50% + 2.9rem);
   }
 }
