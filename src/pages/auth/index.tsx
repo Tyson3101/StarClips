@@ -52,7 +52,7 @@ function Index() {
       });
 
       if (res.ok) {
-        await signIn(provider);
+        await signIn(provider, { callbackUrl: "/auth?loggedIn=true" });
       } else {
         const { error } = await res.json();
         toast(error, {
@@ -102,7 +102,11 @@ function Index() {
                 </span>
                 <span aria-label="Github Sign In">Sign in with Github</span>
               </button>
-              <button onClick={() => signIn("discord")}>
+              <button
+                onClick={() =>
+                  signIn("discord", { callbackUrl: "/auth?loggedIn=true" })
+                }
+              >
                 <span className={styles.authProviderLogo}>
                   <FaDiscord size={30} fill={"#5765F2"} />
                 </span>

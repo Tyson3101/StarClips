@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { PrismaClient } from "@prisma/client";
+
 import sgMail from "@sendgrid/mail";
 import JWT from "jsonwebtoken";
 import token from "randomatic";
@@ -7,7 +7,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "./[...nextauth]";
 import { StatusCodes as STATUS_CODE } from "http-status-codes";
-const prisma = new PrismaClient();
+import prisma from "@lib/PrismaClient";
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 export default async function handler(

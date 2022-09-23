@@ -4,10 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import GithubProvider from "next-auth/providers/github";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "@prisma/client";
 import generateRandomAvatar from "@util/generateAvatar";
-
-const prisma = new PrismaClient();
+import prisma from "@lib/PrismaClient";
 
 const credentialsProperties = {
   username: {},
