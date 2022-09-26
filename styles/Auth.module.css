@@ -12,6 +12,11 @@
   padding: 4vh 0;
 }
 
+.authPage header {
+  min-width: 85%;
+  border-bottom: 2px solid rgb(0, 0, 0);
+}
+
 .scaleHigher {
   transform: translate(-50%, -50%) scale(1.1);
 }

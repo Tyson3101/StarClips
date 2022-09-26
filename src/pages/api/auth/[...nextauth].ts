@@ -16,6 +16,7 @@ const credentialsProperties = {
 
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID!,
@@ -131,7 +132,6 @@ export const authOptions: NextAuthOptions = {
       return extendedSession;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/auth",
     error: "/auth",
@@ -173,7 +173,7 @@ async function handleSignUp(credentials: typeof credentialsProperties) {
   if (userCheck == null) {
     const hashedPassword = await bcrypt.hash(userDetails.password, 10);
     userDetails.password = hashedPassword;
-    const res = await fetch(process.env.NEXTAUTH_URL + "api/auth/verifyEmail", {
+    const res = await fetch(process.env.NEXTAUTH_URL + "api/verify/email", {
       method: "POST",
       headers: {
         "content-type": "application/json",

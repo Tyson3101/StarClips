@@ -13,11 +13,11 @@ export default async function handler(
   const session = await unstable_getServerSession(req, res, authOptions);
   const user = session?.user;
   const users = await prisma.user.findMany({ include: { providers: true } });
+  console.log(process.env.NEXTAUTH_URL);
   if (session) {
     res.status(STATUS_CODE.OK).json({
       message: "Authorized",
       user,
-
       users,
     });
   } else res.status(401).json({ message: "Not authorized!", users });

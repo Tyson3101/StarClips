@@ -5,7 +5,7 @@ import JWT from "jsonwebtoken";
 import token from "randomatic";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "./[...nextauth]";
+import { authOptions } from "../auth/[...nextauth]";
 import { StatusCodes as STATUS_CODE } from "http-status-codes";
 import prisma from "@lib/PrismaClient";
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
@@ -115,7 +115,6 @@ async function createVerificationCode(
       },
     });
   }
-
   const msg = {
     to: req.body.email, // Change to your recipient
     from: "noreply.starclips@gmail.com", // Change to your verified sender
@@ -126,7 +125,6 @@ async function createVerificationCode(
 
   try {
     await sgMail.send(msg);
-    console.log("Sent Email");
     return res.send(STATUS_CODE.OK);
   } catch (e: any) {
     console.log(e);
@@ -139,11 +137,11 @@ async function createVerificationCode(
 function generateHTMLforEmail(token: string) {
   return `
     <div style="background-color: rgb(172, 147, 147);font-family: Arial, Helvetica, sans-serif;margin: 0;padding: 3rem 3rem; max-width: fit-content;">
-      <header>
+      <header style="color: rgb(80,0,80);">
         <h1 style="font-size: 3.5rem; margin: 0; padding: 0;">Star Clips</h1>
         <span style="font-size: 0.88rem; margin: 0; padding: 0;">Email Verification Code</span>
       </header>
-      <div style="font-size: 3rem; margin: 2rem 0rem; padding: 0;">
+      <div style="font-size: 3rem; margin: 2rem 0rem; padding: 0; color: rgb(31,31,31);">
         <p style="margin: 0; padding: 0;">Your code is</p>
         <span style="background-color: rgb(150, 114, 114);font-size: 4.9rem;margin: 0; padding: 0;">${token}</span>
       </div>

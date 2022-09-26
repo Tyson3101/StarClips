@@ -34,12 +34,22 @@ function Index() {
           toastId: "errorLogInToast",
         }
       );
+    } else if (router.query["error"] === "undefined") {
+      setMessage({
+        error: true,
+        value: "Internal Server Error. Try again.",
+      });
+      toast("Internal Server Error. Try again.", {
+        type: "error",
+        autoClose: 3000,
+        toastId: "errorLogInToast",
+      });
     }
   }, [router]);
   async function linkAccount(provider: string) {
     try {
       if (!session?.user) return;
-      const res = await fetch("/api/auth/addProvider", {
+      const res = await fetch("/api/verify/providers", {
         method: "POST",
         headers: {
           "content-type": "application/json",

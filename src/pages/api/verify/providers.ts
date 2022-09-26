@@ -3,7 +3,7 @@
 import sgMail from "@sendgrid/mail";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "./[...nextauth]";
+import { authOptions } from "../auth/[...nextauth]";
 import { StatusCodes as STATUS_CODE } from "http-status-codes";
 import prisma from "@lib/PrismaClient";
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);

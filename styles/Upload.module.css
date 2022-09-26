@@ -1,0 +1,140 @@
+.uploadPage {
+  min-width: 85%;
+  min-height: 30%;
+  margin: auto;
+  color: whitesmoke;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.1);
+  background-color: rgba(63, 30, 101, 0.93);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 1px 1px 10px 1px black;
+  padding: 3vh 0;
+}
+
+.uploadPage header {
+  min-width: 85%;
+  border-bottom: 2px solid rgb(0, 0, 0);
+}
+
+.uploadPage form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.formInput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1px;
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.details input,
+.details select {
+  padding: 0.3em;
+}
+
+.details input {
+  width: 15vw;
+}
+
+.details select {
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.details select:hover {
+  transition: background-color 0.3s;
+  background-color: aliceblue;
+}
+
+.videoPreview {
+  margin: 0;
+  padding: 0;
+  aspect-ratio: 16 / 9;
+  width: 32vw;
+  height: auto;
+}
+
+.videoPreview[poster] {
+  aspect-ratio: 16 / 9;
+  width: 32vw;
+  height: auto;
+  object-fit: fill;
+}
+
+.clipUpload {
+  transition: background-color 0.3s;
+  padding: 0.2rem 0.8rem;
+  color: black;
+  border: 1px solid black;
+  background-color: rgb(250, 248, 253);
+  cursor: pointer;
+}
+
+.clipUpload:hover {
+  transition: background-color 0.3s;
+  background-color: rgb(228, 223, 237);
+}
+
+.sizeLimit {
+  font-size: 0.7em;
+}
+
+.imageUpload {
+  transition: background-color 0.3s;
+  padding: 0.01rem 0.3rem;
+  color: black;
+  border: 1px solid black;
+  background-color: rgb(208, 201, 218);
+  text-align: center;
+  cursor: pointer;
+}
+
+.imageUpload:hover {
+  transition: background-color 0.3s;
+  background-color: rgb(175, 174, 177);
+}
+
+.formInput input[type="file"] {
+  display: none;
+}
+
+.submitBtn {
+  transition: background-color 0.2s;
+  background-color: rgba(255, 255, 255, 0.755);
+  margin-top: 1.3rem;
+  padding: 0.3rem;
+  width: 70%;
+  cursor: pointer;
+}
+
+.imageNamePreview {
+  font-size: 0.89em;
+  color: rgb(196, 18, 240);
+}
+
+@media (max-width: 770px) {
+  .uploadPage {
+    transform: translate(-50%, -50%) scale(1);
+    padding: 1rem 0 3rem 0;
+    top: calc(50% + 2.9rem);
+  }
+}

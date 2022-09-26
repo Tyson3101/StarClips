@@ -74,7 +74,7 @@ function NavBar() {
           <ul className={styles.parentLi}>
             <li
               className={setClassNames(
-                router.pathname === "/clips" ? styles["active"] : ""
+                router.pathname === "/clips/upload" ? styles["active"] : ""
               )}
             >
               <Link href="/clips/upload">

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import ReactToastContainer from "@components/static/ReactToastContainer";
+import PasswordStrengthBar from "react-password-strength-bar";
 
 function SignUp() {
   const router = useRouter();
@@ -18,6 +19,7 @@ function SignUp() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState(0);
   function clearMessage() {
     return setMessage({ error: false, value: "" });
   }
@@ -32,16 +34,24 @@ function SignUp() {
         error: true,
         value: "Please fill in all the fields!",
       });
+    console.log(passwordStrength);
+    if (passwordStrength < 3)
+      return toast("Password not strong enough", {
+        type: "error",
+        autoClose: 3000,
+      });
     if (!codeRequested) {
       return await requestCode();
     }
-    const { error } = (await signIn("credentials", {
-      username,
-      email,
-      password,
-      code,
-      redirect: false,
-    })) as { error: string };
+    const error = (
+      await signIn("credentials", {
+        username,
+        email,
+        password,
+        code,
+        redirect: false,
+      })
+    )?.error as string;
     if (error) {
       console.log(error + " from signup");
       if (error.includes("username"))
@@ -57,7 +67,7 @@ function SignUp() {
 
   async function requestCode() {
     const id = toast.loading("Sending Email...");
-    const res = await fetch("/api/auth/verifyEmail", {
+    const res = await fetch("/api/verify/email", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -94,7 +104,9 @@ function SignUp() {
       <Title page="Signup" desc="Sign Up Page" />
       <ReactToastContainer />
       <div className={styles.authPage} style={{ width: " min(32rem, 95%)" }}>
-        <h2>Sign Up</h2>
+        <header>
+          <h2>Sign Up</h2>
+        </header>
         <h3 className={styles[message.error ? "error" : "success"]}>
           {message.value}
         </h3>
@@ -103,6 +115,7 @@ function SignUp() {
           <input
             type="text"
             name="username"
+            aria-label="Username"
             required
             disabled={status !== "unauthenticated"}
             onChange={(e) => setUsername(e.target.value)}
@@ -111,6 +124,7 @@ function SignUp() {
           <input
             type="email"
             name="email"
+            aria-label="Email"
             disabled={status !== "unauthenticated"}
             required
             onChange={(e) => setEmail(e.target.value)}
@@ -119,9 +133,17 @@ function SignUp() {
           <input
             type="password"
             name="password"
+            aria-label="Password"
             required
             disabled={status !== "unauthenticated"}
             onChange={(e) => setPassword(e.target.value)}
+          />
+          <PasswordStrengthBar
+            password={password}
+            style={{ color: "whitesmoke" }}
+            onChangeScore={(score) => {
+              setPasswordStrength(score);
+            }}
           />
           {codeRequested ? (
             <>
@@ -130,6 +152,7 @@ function SignUp() {
                 <input
                   type="text"
                   name="code"
+                  aria-label="Code"
                   required
                   onChange={(e) => setCode(e.target.value)}
                   disabled={status !== "unauthenticated"}

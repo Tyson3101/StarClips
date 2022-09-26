@@ -8,6 +8,12 @@ enum Providers {
   github
 }
 
+enum VisabiltyState {
+  public
+  unlisted
+  prviate
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -26,6 +32,10 @@ model User {
   verified    Boolean
   providers   Provider[]
   providerIds Providers[]
+  clips       Clip[]
+  comments    Comment[]
+  likes       Like[]
+  userId      String?     @db.ObjectId
 }
 
 model Provider {
@@ -41,4 +51,40 @@ model Verification {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   email String @unique
   jwt   String @unique
+}
+
+model Clip {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  author    User           @relation(fields: [authorId], references: [id])
+  authorId  String         @db.ObjectId
+  srcURL    String
+  visabilty VisabiltyState
+  title     String
+  createdAt DateTime       @default(now())
+  comments  Comment[]
+  likes     Like[]
+}
+
+model Comment {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String    @db.ObjectId
+  clip      Clip      @relation(fields: [clipId], references: [id])
+  clipId    String    @db.ObjectId
+  message   String
+  createdAt DateTime  @default(now())
+  parent    Comment?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children  Comment[] @relation("ParentChild")
+  parentId  String    @db.ObjectId
+  likes     Like[]
+}
+
+model Like {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  clip      Clip?    @relation(fields: [clipId], references: [id], onDelete: Cascade)
+  clipId    String?  @db.ObjectId
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String?  @db.ObjectId
 }

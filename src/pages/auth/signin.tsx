@@ -22,11 +22,13 @@ function SignIn() {
         error: true,
         value: "Please fill in all the fields!",
       });
-    const { error } = (await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    })) as { error: string };
+    const error = (
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      })
+    )?.error;
     if (error) {
       return setMessage({ error: true, value: "Email or Password is wrong." });
     }
@@ -50,11 +52,13 @@ function SignIn() {
             disabled={status !== "unauthenticated"}
             type="email"
             name="email"
+            aria-label="Email"
             required
             onChange={(e) => setEmail(e.target.value)}
           />
           <label htmlFor="password">Password:</label>
           <input
+            aria-label="Password"
             type="password"
             name="password"
             required
