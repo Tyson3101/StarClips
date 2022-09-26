@@ -36,35 +36,50 @@ function Upload() {
   const [game, setGame] = useState("");
 
   async function uploadVideoToCDN(e: FormEvent<HTMLFormElement>) {
+    let clipId: string;
     e.preventDefault();
     if (!title || !visabilty || !game)
       return toast("Please Input a Title and Game", { type: "error" });
     if (!inputtedVideo?.file)
       return toast("Please upload a clip", { type: "error" });
-    const id = toast.loading("Uploading Clip...");
-    const sendData = {
+    const id = toast.loading("Uploading Clip...", { toastId: "uploadclip" });
+    const serverSendData = {
       title,
       visabilty,
       game,
       thumbnail: inputtedThumbnail,
       video: inputtedVideo,
     };
+    const CDNSendData = new FormData();
+    for (let key of Object.keys(inputtedVideo as any)) {
+      CDNSendData.append("clip_" + key, (inputtedVideo as any)[key]);
+    }
+    if (inputtedThumbnail) {
+      for (let key of Object.keys(inputtedVideo as any)) {
+        CDNSendData.append("thumbnail_" + key, (inputtedThumbnail as any)[key]);
+      }
+    }
     try {
       const resDB = await fetch("/api/clips", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ addClip: true, ...sendData }),
+        body: JSON.stringify({ addClip: true, ...serverSendData }),
       });
       if (resDB.ok) {
+        clipId = await resDB.text();
+        console.log(clipId);
+        CDNSendData.append("email", session?.user?.email!);
+        CDNSendData.append("addClip", "true");
+        CDNSendData.append("id", clipId);
         const resCDN = await fetch(process.env.NEXT_PUBLIC_CDN_URL + "/clips", {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            addClip: true,
-            email: session?.user?.email,
-            ...sendData,
-          }),
+          headers: {
+            "content-type": "application/json",
+            authorization: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
+          },
+          body: CDNSendData,
         });
+        console.log(await resCDN.json());
         if (resCDN.ok) {
           toast.update(id, {
             render: "Uploaded!",
@@ -73,7 +88,7 @@ function Upload() {
             closeButton: true,
             autoClose: 5000,
           });
-          setMessage("| Clip uploaded at http://localhost:3000/clip/53953939");
+          setMessage("| Clip uploaded at http://localhost:3000/clip/" + clipId);
         } else Promise.reject((await resCDN.json()).error);
       } else Promise.reject((await resDB.json()).error);
     } catch (e: any) {

@@ -12,7 +12,9 @@ export default async function handler(
 ) {
   const session = await unstable_getServerSession(req, res, authOptions);
   const user = session?.user;
-  const users = await prisma.user.findMany({ include: { providers: true } });
+  const users = await prisma.user.findMany({
+    include: { providers: true, clips: true },
+  });
   console.log(process.env.NEXTAUTH_URL);
   if (session) {
     res.status(STATUS_CODE.OK).json({
