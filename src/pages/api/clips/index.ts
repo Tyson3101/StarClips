@@ -26,17 +26,19 @@ export default async function handler(
 async function addClip(req: NextApiRequest, res: NextApiResponse, user: User) {
   if (!user || !user.email)
     res.status(STATUS_CODE.UNAUTHORIZED).json({ error: "Not logged in!" });
-  const { title, visabilty, game, video } = req.body;
-  if (!title || !visabilty || !game || !video)
+  const { title, visabilty, game, video, videoURL, thumbnailURL } = req.body;
+  if (!title || !visabilty || !game || !video || !videoURL)
     return res
       .status(STATUS_CODE.FORBIDDEN)
       .json({ error: "Not all information present" });
 
-  const { id } = await prisma.clip.create({
+  await prisma.clip.create({
     data: {
       title,
       game,
       visabilty,
+      srcURL: videoURL,
+      thumbnailURL: thumbnailURL || null,
       author: {
         connect: {
           email: user.email as string,
@@ -44,8 +46,7 @@ async function addClip(req: NextApiRequest, res: NextApiResponse, user: User) {
       },
     },
   });
-  console.log(id);
-  res.status(STATUS_CODE.OK).send(id);
+  res.send(STATUS_CODE.OK);
 }
 async function deleteClip(
   req: NextApiRequest,

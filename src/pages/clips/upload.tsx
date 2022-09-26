@@ -10,6 +10,8 @@ import React, {
   useState,
 } from "react";
 import { toast } from "react-toastify";
+import token from "randomatic";
+import Link from "next/link";
 
 type Media = {
   name: string;
@@ -25,7 +27,9 @@ function Upload() {
   const uploadImageRef = useRef() as { current: HTMLInputElement };
   const [inputtedThumbnail, setInputtedThumbnail] = useState<Media>();
   const [inputtedVideo, setInputtedVideo] = useState<Media | null>();
+  const [link, setLink] = useState("");
   const [message, setMessage] = useState("");
+  const [uploading, setUploading] = useState(false);
   useEffect(() => {
     if (status === "unauthenticated") setMessage("| Log in to upload a clip!");
     console.log(status);
@@ -36,19 +40,25 @@ function Upload() {
   const [game, setGame] = useState("");
 
   async function uploadVideoToCDN(e: FormEvent<HTMLFormElement>) {
-    let clipId: string;
+    let clipId = token("Aa0", 15 + Math.floor(Math.random() * 15));
     e.preventDefault();
     if (!title || !visabilty || !game)
       return toast("Please Input a Title and Game", { type: "error" });
     if (!inputtedVideo?.file)
       return toast("Please upload a clip", { type: "error" });
-    const id = toast.loading("Uploading Clip...", { toastId: "uploadclip" });
+    const id = toast.loading(
+      "Uploading Clip... | Could take up to 2 mins depending on file size",
+      { toastId: "uploadclip" }
+    );
+    setUploading(true);
+    setMessage("Uploading...");
     const serverSendData = {
       title,
       visabilty,
       game,
       thumbnail: inputtedThumbnail,
       video: inputtedVideo,
+      clipId,
     };
     const CDNSendData = new FormData();
     for (let key of Object.keys(inputtedVideo as any)) {
@@ -60,27 +70,31 @@ function Upload() {
       }
     }
     try {
-      const resDB = await fetch("/api/clips", {
+      CDNSendData.append("email", session?.user?.email!);
+      CDNSendData.append("addClip", "true");
+      CDNSendData.append("id", clipId);
+
+      const resCDN = await fetch(process.env.NEXT_PUBLIC_CDN_URL + "/clips", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ addClip: true, ...serverSendData }),
+        headers: {
+          authorization: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
+        },
+        body: CDNSendData,
       });
-      if (resDB.ok) {
-        clipId = await resDB.text();
-        console.log(clipId);
-        CDNSendData.append("email", session?.user?.email!);
-        CDNSendData.append("addClip", "true");
-        CDNSendData.append("id", clipId);
-        const resCDN = await fetch(process.env.NEXT_PUBLIC_CDN_URL + "/clips", {
+      if (resCDN.ok) {
+        const { videoURL, thumbnailURL } = await resCDN.json();
+        const resDB = await fetch("/api/clips", {
           method: "POST",
-          headers: {
-            "content-type": "application/json",
-            authorization: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
-          },
-          body: CDNSendData,
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            addClip: true,
+            id: clipId,
+            videoURL,
+            thumbnailURL,
+            ...serverSendData,
+          }),
         });
-        console.log(await resCDN.json());
-        if (resCDN.ok) {
+        if (resDB.ok) {
           toast.update(id, {
             render: "Uploaded!",
             type: "success",
@@ -88,9 +102,10 @@ function Upload() {
             closeButton: true,
             autoClose: 5000,
           });
-          setMessage("| Clip uploaded at http://localhost:3000/clip/" + clipId);
-        } else Promise.reject((await resCDN.json()).error);
-      } else Promise.reject((await resDB.json()).error);
+          setLink("http://localhost:3000/clips/" + clipId);
+          setMessage("Clip uploaded at ");
+        } else Promise.reject((await resDB.json()).error);
+      } else Promise.reject((await resCDN.json()).error);
     } catch (e: any) {
       toast.update(id, {
         render: e,
@@ -100,6 +115,7 @@ function Upload() {
         autoClose: 5000,
       });
     }
+    setUploading(false);
   }
 
   function uploadClip(e: ChangeEvent<HTMLInputElement>) {
@@ -139,14 +155,20 @@ function Upload() {
       <ReactToastContainer autoClose={3000} />
       <div className={styles.uploadPage}>
         <header>
-          <h2>Upload Clip {message}</h2>
+          <h2>Upload Clip</h2>
+          <span>
+            {message}
+            <Link href={link}>
+              <a>{link}</a>
+            </Link>
+          </span>
         </header>
         <form autoComplete="off" spellCheck={false} onSubmit={uploadVideoToCDN}>
           <div className={styles.details}>
             <div className={styles.formInput}>
               <label htmlFor="Title">Title:</label>
               <input
-                disabled={status !== "authenticated"}
+                disabled={status !== "authenticated" || uploading}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Rekt so hard"
                 type="text"
@@ -158,7 +180,7 @@ function Upload() {
             <div className={styles.formInput}>
               <label htmlFor="visabilty">Visabilty:</label>
               <select
-                disabled={status !== "authenticated"}
+                disabled={status !== "authenticated" || uploading}
                 name="visabilty"
                 onChange={(e) => setVisabilty(e.target.value)}
               >
@@ -170,7 +192,7 @@ function Upload() {
             <div className={styles.formInput}>
               <label htmlFor="game">Game:</label>
               <select
-                disabled={status !== "authenticated"}
+                disabled={status !== "authenticated" || uploading}
                 name="game"
                 onChange={(e) => setGame(e.target.value)}
               >
@@ -186,7 +208,7 @@ function Upload() {
           </div>
           <div className={styles.formInput}>
             <input
-              disabled={status !== "authenticated"}
+              disabled={status !== "authenticated" || uploading}
               type="file"
               name="clip"
               accept=".mp4,.gif"
@@ -214,7 +236,7 @@ function Upload() {
               ></video>
               <div className={styles.formInput}>
                 <input
-                  disabled={status !== "authenticated"}
+                  disabled={status !== "authenticated" || uploading}
                   type="file"
                   name="thumbnail"
                   accept=".png,.jpeg,.jpg"
@@ -246,7 +268,8 @@ function Upload() {
           <button
             type="submit"
             className={styles.submitBtn}
-            aria-label="Sign In"
+            aria-label="Upload Video"
+            disabled={uploading}
           >
             Upload
           </button>
