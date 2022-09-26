@@ -1,7 +1,14 @@
 import ReactToastContainer from "@components/static/ReactToastContainer";
 import Title from "@components/static/Title";
 import styles from "@styles/Upload.module.css";
-import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { useSession } from "next-auth/react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "react-toastify";
 
 type Media = {
@@ -12,20 +19,72 @@ type Media = {
 };
 
 function Upload() {
+  const { data: session, status } = useSession();
   const uploadClipVideoRef = useRef() as { current: HTMLVideoElement };
   const uploadClipRef = useRef() as { current: HTMLInputElement };
   const uploadImageRef = useRef() as { current: HTMLInputElement };
   const [inputtedThumbnail, setInputtedThumbnail] = useState<Media>();
   const [inputtedVideo, setInputtedVideo] = useState<Media | null>();
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    if (status === "unauthenticated") setMessage("| Log in to upload a clip!");
+    console.log(status);
+  }, [status]);
 
   const [title, setTitle] = useState("");
   const [visabilty, setVisabilty] = useState("public");
   const [game, setGame] = useState("");
 
-  function uploadVideoToCDN(e: FormEvent<HTMLFormElement>) {
+  async function uploadVideoToCDN(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!title || !visabilty || !game)
       return toast("Please Input a Title and Game", { type: "error" });
+    if (!inputtedVideo?.file)
+      return toast("Please upload a clip", { type: "error" });
+    const id = toast.loading("Uploading Clip...");
+    const sendData = {
+      title,
+      visabilty,
+      game,
+      thumbnail: inputtedThumbnail,
+      video: inputtedVideo,
+    };
+    try {
+      const resDB = await fetch("/api/clips", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ addClip: true, ...sendData }),
+      });
+      if (resDB.ok) {
+        const resCDN = await fetch(process.env.NEXT_PUBLIC_CDN_URL + "/clips", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            addClip: true,
+            email: session?.user?.email,
+            ...sendData,
+          }),
+        });
+        if (resCDN.ok) {
+          toast.update(id, {
+            render: "Uploaded!",
+            type: "success",
+            isLoading: false,
+            closeButton: true,
+            autoClose: 5000,
+          });
+          setMessage("| Clip uploaded at http://localhost:3000/clip/53953939");
+        } else Promise.reject((await resCDN.json()).error);
+      } else Promise.reject((await resDB.json()).error);
+    } catch (e: any) {
+      toast.update(id, {
+        render: e,
+        type: "error",
+        isLoading: false,
+        closeButton: true,
+        autoClose: 5000,
+      });
+    }
   }
 
   function uploadClip(e: ChangeEvent<HTMLInputElement>) {
@@ -41,7 +100,6 @@ function Upload() {
       url,
       type: "video",
     };
-    console.log({ name: media.name, url: media.url, type: media.type });
     setInputtedVideo(media);
   }
   function uploadThumbnail(e: ChangeEvent<HTMLInputElement>) {
@@ -57,22 +115,23 @@ function Upload() {
       url,
       type: "image",
     };
-    console.log({ name: media.name, url: media.url, type: media.type });
+
     setInputtedThumbnail(media);
   }
   return (
     <>
       <Title page="Upload" desc="Upload Clip Page" />
-      <ReactToastContainer />
+      <ReactToastContainer autoClose={3000} />
       <div className={styles.uploadPage}>
         <header>
-          <h2>Upload Clip</h2>
+          <h2>Upload Clip {message}</h2>
         </header>
         <form autoComplete="off" spellCheck={false} onSubmit={uploadVideoToCDN}>
           <div className={styles.details}>
             <div className={styles.formInput}>
               <label htmlFor="Title">Title:</label>
               <input
+                disabled={status !== "authenticated"}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Rekt so hard"
                 type="text"
@@ -84,6 +143,7 @@ function Upload() {
             <div className={styles.formInput}>
               <label htmlFor="visabilty">Visabilty:</label>
               <select
+                disabled={status !== "authenticated"}
                 name="visabilty"
                 onChange={(e) => setVisabilty(e.target.value)}
               >
@@ -94,7 +154,11 @@ function Upload() {
             </div>
             <div className={styles.formInput}>
               <label htmlFor="game">Game:</label>
-              <select name="game" onChange={(e) => setGame(e.target.value)}>
+              <select
+                disabled={status !== "authenticated"}
+                name="game"
+                onChange={(e) => setGame(e.target.value)}
+              >
                 <option value=""></option>
                 <option value="rocketleague">Rocket League</option>
                 <option value="vlorant">Valorant</option>
@@ -107,6 +171,7 @@ function Upload() {
           </div>
           <div className={styles.formInput}>
             <input
+              disabled={status !== "authenticated"}
               type="file"
               name="clip"
               accept=".mp4,.gif"
@@ -134,6 +199,7 @@ function Upload() {
               ></video>
               <div className={styles.formInput}>
                 <input
+                  disabled={status !== "authenticated"}
                   type="file"
                   name="thumbnail"
                   accept=".png,.jpeg,.jpg"
@@ -158,7 +224,9 @@ function Upload() {
               </div>
             </>
           ) : (
-            <div className={styles.mediaPreview}></div>
+            <div className={styles.mediaPreview}>
+              <span>Video Preview</span>
+            </div>
           )}
           <button
             type="submit"

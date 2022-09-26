@@ -63,16 +63,17 @@ model Verification {
 }
 
 model Clip {
-  id        String         @id @default(auto()) @map("_id") @db.ObjectId
-  author    User           @relation(fields: [authorId], references: [id])
-  authorId  String         @db.ObjectId
-  srcURL    String
-  visabilty VisabiltyState
-  game      Game
-  title     String
-  createdAt DateTime       @default(now())
-  comments  Comment[]
-  likes     Like[]
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  author       User           @relation(fields: [authorId], references: [id])
+  authorId     String         @db.ObjectId
+  srcURL       String?
+  thumbnailURL String?
+  visabilty    VisabiltyState
+  game         Game
+  title        String
+  createdAt    DateTime       @default(now())
+  comments     Comment[]
+  likes        Like[]
 }
 
 model Comment {

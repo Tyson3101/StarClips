@@ -52,7 +52,7 @@
 }
 
 .details input {
-  width: 15vw;
+  width: max(15vw, 9rem);
 }
 
 .details select {
@@ -69,15 +69,25 @@
   margin: 0;
   padding: 0;
   aspect-ratio: 16 / 9;
-  width: 32vw;
+  width: max(30vw, 12rem);
   height: auto;
 }
 
 .videoPreview[poster] {
   aspect-ratio: 16 / 9;
-  width: 32vw;
+  width: max(32vw, 12rem);
   height: auto;
   object-fit: fill;
+}
+
+.mediaPreview {
+  aspect-ratio: 16 / 9;
+  padding: 0 max(12.5vw, 3rem);
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
 }
 
 .clipUpload {

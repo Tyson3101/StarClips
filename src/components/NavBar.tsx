@@ -42,14 +42,14 @@ function NavBar() {
             </li>
             <li
               className={setClassNames(
-                router.pathname === "/clips" ? styles["active"] : "",
+                router.pathname === "/clips/library" ? styles["active"] : "",
                 styles.mediaReactIcon
               )}
             >
-              <Link href="/clips">
+              <Link href="/clips/library">
                 <a aria-label="Clips">
                   <GrMultimedia size={20} />
-                  <span className={styles.itemTitle}>&nbsp;Clips</span>
+                  <span className={styles.itemTitle}>&nbsp;Library</span>
                 </a>
               </Link>
             </li>
@@ -85,7 +85,7 @@ function NavBar() {
             </li>
             <li
               className={setClassNames(
-                router.pathname === "/clips" ? styles["active"] : "",
+                router.pathname === "/settings" ? styles["active"] : "",
                 styles.settingsReactIcon
               )}
             >
