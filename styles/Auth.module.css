@@ -1,7 +1,7 @@
 .authPage {
   color: whitesmoke;
   position: absolute;
-  top: 50%;
+  top: calc(50% + 1.1rem);
   left: 50%;
   transform: translate(-50%, -50%) scale(1.1);
   background-color: rgba(63, 30, 101, 0.93);
@@ -9,7 +9,7 @@
   flex-direction: column;
   align-items: center;
   box-shadow: 1px 1px 10px 1px black;
-  padding: 4vh 0;
+  padding: 2vh 0;
 }
 
 .authPage header {

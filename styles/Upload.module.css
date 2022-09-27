@@ -4,7 +4,7 @@
   margin: auto;
   color: whitesmoke;
   position: absolute;
-  top: 50%;
+  top: calc(50% + 1.1rem);
   left: 50%;
   transform: translate(-50%, -50%) scale(1.1);
   background-color: rgba(63, 30, 101, 0.93);
