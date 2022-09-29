@@ -103,7 +103,7 @@ function SignUp() {
     <>
       <Title page="Signup" desc="Sign Up Page" />
       <ReactToastContainer />
-      <div className={styles.authPage} style={{ width: " min(32rem, 95%)" }}>
+      <div className={styles.authPage}>
         <header>
           <h2>Sign Up</h2>
         </header>

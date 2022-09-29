@@ -1,0 +1,65 @@
+.clipContainer {
+  --videoSize: max(50vw, 10rem);
+  background-color: rgba(63, 30, 101, 0.53);
+  box-shadow: 1px 1px 10px 1px black;
+  width: 90%;
+  margin: auto;
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: rcow;
+  padding: 1vw;
+  font-size: 1.1vw;
+}
+
+.clipContainer video,
+.clipContainer img {
+  margin: 0;
+  padding: 0;
+  aspect-ratio: 16 / 9;
+  width: var(--videoSize);
+  height: auto;
+  object-fit: fill;
+}
+
+.videoInfo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 1vw;
+  padding: 10px;
+  width: 100%;
+  color: whitesmoke;
+  background-color: rgba(17, 21, 59, 0.35);
+}
+
+.videoMeta {
+  display: flex;
+  justify-content: space-between;
+}
+
+.videoMeta h1 {
+  line-height: 0.8;
+  margin-bottom: 10px;
+}
+.gameInfo {
+  font-size: 0.9vw;
+}
+
+@media (max-width: 742px) {
+  .clipContainer {
+    margin-top: 4vh;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2.3vw;
+  }
+
+  .clipContainer video,
+  .clipContainer img {
+    width: 99%;
+  }
+
+  .videoInfo {
+    margin-top: 1em;
+  }
+}

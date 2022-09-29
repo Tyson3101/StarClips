@@ -129,7 +129,7 @@ function Upload() {
       name: eventFile.name,
       file: eventFile,
       url,
-      type: "video",
+      type: eventFile.name.match(/\.gif$/)?.length ? "gif" : "video",
     };
     setInputtedVideo(media);
   }
@@ -149,6 +149,7 @@ function Upload() {
 
     setInputtedThumbnail(media);
   }
+  console.log(inputtedVideo);
   return (
     <>
       <Title page="Upload" desc="Upload Clip Page" />
@@ -227,38 +228,44 @@ function Upload() {
           </div>
           {inputtedVideo ? (
             <>
-              <video
-                preload="metadata"
-                className={styles.videoPreview}
-                controls
-                ref={uploadClipVideoRef}
-                src={inputtedVideo.url + "#t=0.1"}
-              ></video>
-              <div className={styles.formInput}>
-                <input
-                  disabled={status !== "authenticated" || uploading}
-                  type="file"
-                  name="thumbnail"
-                  accept=".png,.jpeg,.jpg"
-                  multiple={false}
-                  ref={uploadImageRef}
-                  onChange={uploadThumbnail}
-                />
-                <label
-                  htmlFor="thumbnail"
-                  className={styles.imageUpload}
-                  onClick={() => uploadImageRef.current.click()}
-                >
-                  Upload Thumbnail
-                  {
-                    <span className={styles.imageNamePreview}>
-                      <br />
-                      {inputtedThumbnail?.name || ""}
-                    </span>
-                  }
-                </label>
-                <span className={styles.sizeLimit}>2mb limit</span>
-              </div>
+              {inputtedVideo.type === "gif" ? (
+                <img src={inputtedVideo.url} className={styles.videoPreview} />
+              ) : (
+                <video
+                  preload="metadata"
+                  className={styles.videoPreview}
+                  controls
+                  ref={uploadClipVideoRef}
+                  src={inputtedVideo.url + "#t=0.1"}
+                ></video>
+              )}
+              {inputtedVideo.type === "gif" ? null : (
+                <div className={styles.formInput}>
+                  <input
+                    disabled={status !== "authenticated" || uploading}
+                    type="file"
+                    name="thumbnail"
+                    accept=".png,.jpeg,.jpg"
+                    multiple={false}
+                    ref={uploadImageRef}
+                    onChange={uploadThumbnail}
+                  />
+                  <label
+                    htmlFor="thumbnail"
+                    className={styles.imageUpload}
+                    onClick={() => uploadImageRef.current.click()}
+                  >
+                    Upload Thumbnail
+                    {
+                      <span className={styles.imageNamePreview}>
+                        <br />
+                        {inputtedThumbnail?.name || ""}
+                      </span>
+                    }
+                  </label>
+                  <span className={styles.sizeLimit}>2mb limit</span>
+                </div>
+              )}
             </>
           ) : (
             <div className={styles.mediaPreview}>

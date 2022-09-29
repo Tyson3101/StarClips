@@ -1,12 +1,8 @@
 .uploadPage {
-  min-width: 85%;
-  min-height: 30%;
-  margin: auto;
   color: whitesmoke;
-  position: absolute;
-  top: calc(50% + 1.1rem);
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1.1);
+  width: 85%;
+  margin: auto;
+  margin-top: 10vh;
   background-color: rgba(63, 30, 101, 0.93);
   display: flex;
   flex-direction: column;
@@ -71,12 +67,6 @@
   aspect-ratio: 16 / 9;
   width: max(30vw, 12rem);
   height: auto;
-}
-
-.videoPreview[poster] {
-  aspect-ratio: 16 / 9;
-  width: max(32vw, 12rem);
-  height: auto;
   object-fit: fill;
 }
 
@@ -139,12 +129,4 @@
 .imageNamePreview {
   font-size: 0.89em;
   color: rgb(196, 18, 240);
-}
-
-@media (max-width: 770px) {
-  .uploadPage {
-    transform: translate(-50%, -50%) scale(1);
-    padding: 1rem 0 3rem 0;
-    top: calc(50% + 2.9rem);
-  }
 }

@@ -4,7 +4,6 @@
   background-color: var(--bgColour);
   color: whitesmoke;
   text-align: center;
-  position: fixed;
   width: 100%;
   top: 0;
   box-shadow: 0.1px 0.1px 30px 1.3px rgb(0, 0, 0);

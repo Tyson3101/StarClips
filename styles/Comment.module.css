@@ -1,0 +1,57 @@
+.commentComponent {
+  background-color: rgba(31, 4, 77, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.inputSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  border-bottom: 2px solid black;
+  padding: 1vh 1vw;
+}
+
+.inputSection > button {
+  padding: 1vh 1vw;
+}
+
+.inputSection > input {
+  padding: 0.5vh 0.2vw;
+  width: 60%;
+}
+
+.commentsSection {
+  margin: 11px;
+}
+
+.comment .username a {
+  color: inherit;
+  text-decoration: none;
+}
+.comment .username a:hover {
+  text-decoration: underline;
+}
+.comment .value {
+  font-size: 0.7em;
+}
+
+.commentsPages {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px;
+  margin-top: auto;
+  border-top: 0.2px solid black;
+}
+
+.commentsPages .buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.commentsNotFound {
+  display: flex;
+  justify-content: center;
+}

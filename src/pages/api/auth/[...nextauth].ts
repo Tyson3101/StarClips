@@ -54,6 +54,7 @@ export const authOptions: NextAuthOptions = {
       if (!userCheck) {
         await prisma.user.create({
           data: {
+            createdAt: Date.now(),
             username: (profile.username as string) || user.email,
             email: user.email,
             avatar:
@@ -190,6 +191,7 @@ async function handleSignUp(credentials: typeof credentialsProperties) {
     if (res.ok) {
       await prisma.user.create({
         data: {
+          createdAt: Date.now(),
           username: userDetails.username,
           email: userDetails.email,
           password: hashedPassword,

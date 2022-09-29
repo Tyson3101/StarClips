@@ -1,14 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap");
 body {
   font-family: "Libre Franklin";
-  height: 100vh;
-  width: 100vw;
   background: url("/background.png") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   background-color: rgb(169, 139, 164);
+  min-height: 100%;
+  min-width: 100%;
 }
 
 *,
@@ -17,4 +17,8 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
 }

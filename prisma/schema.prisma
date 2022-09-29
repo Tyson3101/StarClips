@@ -23,6 +23,11 @@ enum Game {
   other
 }
 
+enum MediaType {
+  gif
+  mp4
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -34,6 +39,7 @@ datasource db {
 
 model User {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   Int
   username    String      @unique
   email       String      @unique
   password    String?
@@ -64,29 +70,28 @@ model Verification {
 
 model Clip {
   id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  clipId       String         @unique
   author       User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId     String         @db.ObjectId
+  type         MediaType
   srcURL       String
   thumbnailURL String?
   visabilty    VisabiltyState
   game         Game
   title        String
-  createdAt    DateTime       @default(now())
+  createdAt    Int
   comments     Comment[]
   likes        Like[]
 }
 
 model Comment {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  author    User      @relation(fields: [authorId], references: [id])
-  authorId  String    @db.ObjectId
-  clip      Clip      @relation(fields: [clipId], references: [id])
-  clipId    String    @db.ObjectId
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  author    User   @relation(fields: [authorId], references: [id])
+  authorId  String @db.ObjectId
+  clip      Clip   @relation(fields: [clipId], references: [id])
+  clipId    String @db.ObjectId
   message   String
-  createdAt DateTime  @default(now())
-  parent    Comment?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  children  Comment[] @relation("ParentChild")
-  parentId  String    @db.ObjectId
+  createdAt Int
   likes     Like[]
 }
 

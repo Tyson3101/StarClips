@@ -6,7 +6,6 @@ import { signIn, useSession } from "next-auth/react";
 import Title from "@components/static/Title";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import setClassNames from "@util/setClassNames";
 import ReactToastContainer from "@components/static/ReactToastContainer";
 
 function SignIn() {
@@ -38,10 +37,7 @@ function SignIn() {
     <>
       <Title page="Signin" desc="Sign In Page" />
       <ReactToastContainer />
-      <div
-        className={setClassNames(styles.authPage, styles.scaleHigher)}
-        style={{ width: " min(30rem, 92%)" }}
-      >
+      <div className={styles.authPage}>
         <h2>Sign In</h2>
         <h3 className={styles[message.error ? "error" : "success"]}>
           {message.value}
