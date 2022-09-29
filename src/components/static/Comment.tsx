@@ -54,7 +54,9 @@ function CommentComponent({
         <input
           disabled={status !== "authenticated"}
           type="text"
-          placeholder="Rate the clip!"
+          placeholder={
+            status === "authenticated" ? "Rate the clip!" : "Log in to comment"
+          }
           ref={inputRef}
         />
         <button disabled={status !== "authenticated"} onClick={createComment}>
